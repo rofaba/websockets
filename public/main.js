@@ -42,9 +42,9 @@ function renderMensajes(mensajes) {
     console.log(mensajes)
     const chatWeb = mensajes.map((elem) => {
         return (`<div>
-        <span style = "color:blue;"> <strong>${elem.author}</strong>: </span> 
+        <span style = "color:blue;"> <b>${elem.author}</b>: </span> 
         <span style = "color:brown;"> ${Date()} </style> </span>
-        <span style = "color: green;" <i>${elem.text}</i> </span>
+        <span style = "color: green; font-style:italic "<em>${elem.text}</em> </span>
             </div>`)
     }).join(" ");
     document.querySelector("#messages").innerHTML = chatWeb;
