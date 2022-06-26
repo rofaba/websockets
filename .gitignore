@@ -1,4 +1,4 @@
-#ignorar
+/node_modules
+rutasbase.js
 
-node_modules
 
