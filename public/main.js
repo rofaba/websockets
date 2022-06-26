@@ -2,7 +2,8 @@
 const socket = io.connect();
 socket.on('productos', data => {
     console.log(data);
-    renderTabla(data);});
+    renderTabla(data);
+});
 
 socket.on('mensajes', msg => {
     console.log(msg);
@@ -10,30 +11,37 @@ socket.on('mensajes', msg => {
 })
 
 function renderTabla(data) {
-    const sinProductos = `<h1> No hay productos para mostrar </h1>`
-        if (data.length == 0) {
-            document.querySelector(".table").innerHTML = sinProductos
-            
-        } else {
-        const tabla = data.map((elem)=> {
-        return(`<tr>
+    const sinProductos = `<h3 style= "color:red";> No hay productos para mostrar </h3>`
+    if (data.length == 0) {
+        document.querySelector(".table").innerHTML = sinProductos
+
+    } else {
+        const tabla = data.map((elem) => {
+            return (`  
+                   <tr>                  
                     <td> ${elem.id} </td>
                     <td> ${elem.title} </td>
                     <td> ${elem.price} </td>
-                    <td> <img src= ${elem.thumbnail} alt=${elem.title}} width="50px">
-                    </td>
-                </tr>`)
+                    <td> <img src= ${elem.thumbnail} alt=${elem.title}} width="40px"></td>
+                   </tr> 
+                `)
         })
-                document.querySelector(".table").innerHTML = tabla;
-                
-        }  
+        document.querySelector(".table").innerHTML = `
+        <tr>
+        <th> Id</th>
+        <th> Nombre </th>
+        <th> Precio </th>
+        <th> Imagen </th>    
+        </tr>
+        ${tabla}`
     }
-                
+}
+
 // RENDERIZAR LOS MENSAJES
 function renderMensajes(mensajes) {
     console.log(mensajes)
     const chatWeb = mensajes.map((elem) => {
-        return(`<div>
+        return (`<div>
         <span style = "color:blue;"> <strong>${elem.author}</strong>: </span> 
         <span style = "color:brown;"> ${Date()} </style> </span>
         <span style = "color: green;" <i>${elem.text}</i> </span>
@@ -45,10 +53,16 @@ function renderMensajes(mensajes) {
 // socket.on('mensajes', function(data) { render(data); });
 
 function addMessage(e) {
-    const mensaje = {
-        author: document.getElementById('username').value,
-        text: document.getElementById('texto').value
-    };
-    socket.emit('new-mensaje', mensaje);
-    return false;
+    const email = document.getElementById('username');
+
+    if (email.value) {
+        const mensaje = {
+            author: document.getElementById('username').value,
+            text: document.getElementById('texto').value
+        };
+        socket.emit('new-mensaje', mensaje);
+        return false;
+    } else {
+        alert("Debes ingresar tu e-mail para utilizar el chat")
+    }
 }
