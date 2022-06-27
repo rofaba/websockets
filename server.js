@@ -11,8 +11,8 @@ const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
+const PORT = process.env.PORT || 8080;
 
-const PORT = 8080
 //TEMPLATE ENGINE
 const exphbs = require('express-handlebars');
 const { application } = require("express");
@@ -51,7 +51,7 @@ app.engine('handlebars', exphbs.engine())
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/public/views')
 
-app.set('port', 8080)
+app.set('port', PORT)
 
 //MIDDELWARE
 app.use(express.json())

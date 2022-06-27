@@ -53,8 +53,6 @@ function renderMensajes(mensajes) {
     document.querySelector("#messages").innerHTML = chatWeb;
 }
 
-// socket.on('mensajes', function(data) { render(data); });
-
 function addMessage(e) {
     const email = document.getElementById('username');
 
