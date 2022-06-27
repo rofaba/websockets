@@ -1,5 +1,7 @@
 
 const socket = io.connect();
+const date = new Date();
+
 socket.on('productos', data => {
     console.log(data);
     renderTabla(data);
@@ -38,12 +40,13 @@ function renderTabla(data) {
 }
 
 // RENDERIZAR LOS MENSAJES
+
 function renderMensajes(mensajes) {
-    console.log(mensajes)
-    const chatWeb = mensajes.map((elem) => {
+
+        const chatWeb = mensajes.map((elem) => {
         return (`<div>
         <span style = "color:blue;"> <b>${elem.author}</b>: </span> 
-        <span style = "color:brown;"> ${Date()} </style> </span>
+        <span style = "color:brown;"> ${elem.fecha} </style> </span>
         <span style = "color: green; font-style:italic "<em>${elem.text}</em> </span>
             </div>`)
     }).join(" ");
@@ -58,7 +61,8 @@ function addMessage(e) {
     if (email.value) {
         const mensaje = {
             author: document.getElementById('username').value,
-            text: document.getElementById('texto').value
+            text: document.getElementById('texto').value,
+            fecha: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
         };
         socket.emit('new-mensaje', mensaje);
         return false;

@@ -4,6 +4,8 @@ RODRIGO FAURE COMISION 30995
 */
 const express = require("express");
 const app = express();
+const fs = require('fs');
+const fetch = require('node-fetch')
 
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
@@ -13,6 +15,7 @@ const io = new IOServer(httpServer);
 const PORT = 8080
 //TEMPLATE ENGINE
 const exphbs = require('express-handlebars');
+const { application } = require("express");
 
 //lista de productos al momento de conectar
 
@@ -36,16 +39,18 @@ const productos = [
         "id": 3
       }
   ]
-const mensajes= [
-    { author: "Chat_Bot", text: "Bienvenido" },
-    { author: "Chat_Bot", text: "Te dejo copia de los mensajes"},
-    { author: "Chat_Bot", text: "Te invito a participar"  }   
- ];
+
+  const mensajes = [
+    { author: "Chat_Bot", text: "Bienvenido, esto son los mensajes disponibles.",
+      fecha: " "
+    }   
+ ]
 
 //SETTINGS
 app.engine('handlebars', exphbs.engine())
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/public/views')
+
 app.set('port', 8080)
 
 //MIDDELWARE
@@ -70,6 +75,8 @@ app.post('/productos', (req, res) => {
             nuevoProducto.id = (Math.max(...identificadores) + 1);
         }
         productos.push(nuevoProducto)
+        let prodString = JSON.stringify(productos, null, 2)
+        fs.promises.writeFile("productos.txt", prodString);
         console.log('producto guardado')
         res.redirect('/')
     }
@@ -88,6 +95,10 @@ io.on('connection',socket => {
     socket.on('new-mensaje', data => {
         mensajes.push(data);
         io.sockets.emit('mensajes', mensajes);
+        let msgString = JSON.stringify(mensajes, null, 2)
+            fs.promises.writeFile("mensajes.txt", msgString);
+            console.log('texto guardado')
+            
     });
  });
 
