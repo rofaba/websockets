@@ -3,10 +3,5 @@
     "author": "Chat_Bot",
     "text": "Bienvenido, esto son los mensajes disponibles.",
     "fecha": " "
-  },
-  {
-    "author": "rodrigofaure@gmail.com",
-    "text": "Mensaje de prueba",
-    "fecha": "27/5/2022-17:18:1"
   }
 ]
